@@ -17,8 +17,10 @@
               name="password" 
               placeholder="Enter password" ngDefaultControl>
           </div>
-        <button type="submit" [disabled]="!taskForm.form.valid" 
-          class="btn btn-info">connect</button>
+        <button (click)="login()" [disabled]="!taskForm.form.valid" 
+          class="btn btn-info">Connect</button>
+        <button (click)="register()" [disabled]="!taskForm.form.valid" 
+          class="btn btn-info">Register</button>
       </form>
     </div>
   </div>
