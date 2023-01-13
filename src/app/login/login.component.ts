@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
 import * as AWS from 'aws-sdk/global';
 import * as S3 from 'aws-sdk/clients/s3';
+import { GlobalVar } from '../global-variables'
+import { Router } from '@angular/router';
 
 export interface User {
   username: string;
@@ -17,17 +19,13 @@ export class LoginComponent {
 
   username:string;
   password:string;
-  connectedUser:User;
   credentialMatch:boolean;
-  loginFinished:boolean;
   userList:User[]|undefined=[];
 
-  constructor(){
+  constructor(private _router: Router){
     this.username="";
     this.password="";
-    this.connectedUser={username:"",password:""};
     this.credentialMatch=false;
-    this.loginFinished=false;
     this.loadLogin();
   }
 
@@ -39,14 +37,7 @@ export class LoginComponent {
 
   async loadLogin(){
     console.log('listing login bucket ...');
-    const bucket = new S3(
-      {
-        accessKeyId: 'ASIAUGNLVVIW53DTHVF3',
-        secretAccessKey: 'TeZqiQvA7FlgPCvy6ZUvxrDfgCdHse1mro3H6Wgk',
-        sessionToken:'FwoGZXIvYXdzEHEaDJN4CrAtXav8SoQ2viK9AW16h1r+kvHzeqp8ZiR38XgraNNwNDMtM+8KoJ1C/FbzBPa9d12AGrz8mGnc1N3rzO4xalg/ISx1Bl94rt3jWRQTISG3yVcgP03XnPX0rwijGf02tYIVy2uF3DgWi2rBa2Lfjiz1SCZ3h8ybtkeeg3u0FukDJH6UqVhRFEr0x5usyCTecBVd6FfH2Sh4mkvHI/wVIhnKpcg0z3+r2DQpSD1+MzDFPmeabg4mb+flO61prezWXpgA+NfmVFPwMiii6/6dBjItaoh7Ew2kb2ppRArRJFEjksyPbCMrolL/B4okla3aOKhaNaehg2CxOo+7DhIs',
-        region: 'us-east-1'
-      }
-      );
+    const bucket = new S3(GlobalVar.credentials);
       const params = {
           Bucket: 'bdploginbucket'
       };
@@ -94,36 +85,46 @@ export class LoginComponent {
     }
   }
 
-  register(){
-    if(this.username!="" && this.password!=""){
-      console.log("register with account ", this.username)
-      const object:User={username:this.username, password:this.password};
-      const stringifyObj = JSON.stringify(object);
-      const bucket = new S3(
-        {
-          accessKeyId: 'ASIAUGNLVVIW53DTHVF3',
-          secretAccessKey: 'TeZqiQvA7FlgPCvy6ZUvxrDfgCdHse1mro3H6Wgk',
-          sessionToken:'FwoGZXIvYXdzEHEaDJN4CrAtXav8SoQ2viK9AW16h1r+kvHzeqp8ZiR38XgraNNwNDMtM+8KoJ1C/FbzBPa9d12AGrz8mGnc1N3rzO4xalg/ISx1Bl94rt3jWRQTISG3yVcgP03XnPX0rwijGf02tYIVy2uF3DgWi2rBa2Lfjiz1SCZ3h8ybtkeeg3u0FukDJH6UqVhRFEr0x5usyCTecBVd6FfH2Sh4mkvHI/wVIhnKpcg0z3+r2DQpSD1+MzDFPmeabg4mb+flO61prezWXpgA+NfmVFPwMiii6/6dBjItaoh7Ew2kb2ppRArRJFEjksyPbCMrolL/B4okla3aOKhaNaehg2CxOo+7DhIs',
-          region: 'us-east-1'
-        }
-        );
-        const params = {
-            Bucket: 'bdploginbucket',
-            Key: uuidv4(),
-            Body: stringifyObj
-        };
-        console.log(stringifyObj)
-        bucket.upload(params, function (err: any, data: any) {
-            if (err) {
-                console.log('There was an error uploading your file: ', err);
-                return false;
-            }
-            console.log('Successfully uploaded file.', data);
-            return true;
-        });
+  checkExistingUser(){
+    let userAlreadyExist=false;
+    this.userList?.forEach(user =>{
+      if(this.username == user.username){
+        userAlreadyExist=true;
+      }
+    });
+    return userAlreadyExist;
+  }
 
+  register(){
+    if(!this.checkExistingUser()){
+      if(this.username!="" && this.password!=""){
+        console.log("register with account ", this.username)
+        const object:User={username:this.username, password:this.password};
+        const stringifyObj = JSON.stringify(object);
+        const bucket = new S3(GlobalVar.credentials);
+          const params = {
+              Bucket: 'bdploginbucket',
+              Key: uuidv4(),
+              Body: stringifyObj
+          };
+          console.log(stringifyObj)
+          bucket.upload(params,  (err: any, data: any) => {
+              if (err) {
+                  console.log('There was an error uploading your file: ', err);
+                  return false;
+              }
+              console.log('Successfully uploaded file.', data);
+              GlobalVar.connectedUser={username:this.username,password:this.password};
+              console.log("connected with user ",GlobalVar.connectedUser.username," and password ", GlobalVar.connectedUser.password)
+              this._router.navigateByUrl('/home')
+              return true;
+          });
+  
+      }else{
+        alert("error");
+      }
     }else{
-      alert("error");
+      alert('this user already exists')
     }
   }
 
@@ -138,11 +139,11 @@ export class LoginComponent {
       });
 
         if(this.credentialMatch ){
-          this.connectedUser={username:this.username,password:this.password};
-          const message = "connected with user " + this.connectedUser.username;
-          console.log("connected with user ",this.connectedUser.username," and password ", this.connectedUser.password)
+          GlobalVar.connectedUser={username:this.username,password:this.password};
+          const message = "connected with user " + GlobalVar.connectedUser.username;
+          console.log("connected with user ",GlobalVar.connectedUser.username," and password ", GlobalVar.connectedUser.password)
           this.credentialMatch=false;
-          alert(message);
+          this._router.navigateByUrl('/home')
         }else{
           console.log(this.userList)
           alert("there is no user with this password");
