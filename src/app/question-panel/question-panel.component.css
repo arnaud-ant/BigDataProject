@@ -1,26 +1,27 @@
 .main{
-    min-height: 100vh;
+    /*min-height: 100vh;*/
     background: rgb(18, 1, 39);
     color:white;
 }
 
 .title{
-    padding:30px;
+    margin:30px;
     margin-left:80px;
     font-size: 28px;
     display:flex;
+    flex-direction: column;
 }
 
 
+
 .container{
-    margin-top:10%;
+    margin-top:5%;
     font-size: 20px;
     list-style-type: none;
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    
 }
 
 .answer{
@@ -37,7 +38,6 @@
 }
 
 .answer:hover {
-    border: none;
     opacity:0.85;
 }
 

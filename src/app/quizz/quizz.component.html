@@ -1,0 +1,36 @@
+<div class="main">
+    <div class="info">
+    
+        <div class="progression">
+            <div class="dot" id="q1" ></div>
+            <div class="line" id="q2" style="background-color: {{currentQuestionId>1?'orange':'#F8F8FF'}}"></div>  
+            <div class="dot" id="q2" style="background-color: {{currentQuestionId>1?'orange':'#F8F8FF'}}"></div>
+            <div class="line" id="q3" style="background-color: {{currentQuestionId>2?'orange':'#F8F8FF'}}"></div>  
+            <div class="dot" id="q3" style="background-color: {{currentQuestionId>2?'orange':'#F8F8FF'}}"></div>  
+            <div class="line" id="q4" style="background-color: {{currentQuestionId>3?'orange':'#F8F8FF'}}"></div>  
+            <div class="dot" id="q4" style="background-color: {{currentQuestionId>3?'orange':'#F8F8FF'}}"></div>  
+            <div class="line" id="q5" style="background-color: {{currentQuestionId>4?'orange':'#F8F8FF'}}"></div>  
+            <div class="dot" id="q5" style="background-color: {{currentQuestionId>4?'orange':'#F8F8FF'}}"></div>  
+            <div class="line" id="q6" style="background-color: {{currentQuestionId>5?'orange':'#F8F8FF'}}"></div>  
+            <div class="dot" id="q6" style="background-color: {{currentQuestionId>5?'orange':'#F8F8FF'}}"></div>  
+            <div class="line" id="q7" style="background-color: {{currentQuestionId>6?'orange':'#F8F8FF'}}"></div>  
+            <div class="dot" id="q7" style="background-color: {{currentQuestionId>6?'orange':'#F8F8FF'}}"></div>  
+            <div class="line" id="q8" style="background-color: {{currentQuestionId>7?'orange':'#F8F8FF'}}"></div>  
+            <div class="dot" id="q8" style="background-color: {{currentQuestionId>7?'orange':'#F8F8FF'}}"></div>  
+            <div class="line" id="q9" style="background-color: {{currentQuestionId>8?'orange':'#F8F8FF'}}"></div>  
+            <div class="dot" id="q9" style="background-color: {{currentQuestionId>8?'orange':'#F8F8FF'}}"></div>  
+            <div class="line" id="q10" style="background-color: {{currentQuestionId>9?'orange':'#F8F8FF'}}"></div>  
+            <div class="dot" id="q10" style="background-color: {{currentQuestionId>9?'orange':'#F8F8FF'}}"></div>    
+        </div>
+    </div>
+    <div class="question">
+        <app-question-panel [question]=currentQuestion (childEvent)="checkAnswer($event)"></app-question-panel>
+    </div>
+    <div class="record">
+        <img *ngIf="recordVoice" id="micro-icon" src="https://cdn2.iconfinder.com/data/icons/Siena/256/microphone%20red.png" >
+    <div *ngIf="recordVoice"  class="recordProgression">
+        <div class="progress-value"></div>
+    </div>
+    </div>
+    
+</div>

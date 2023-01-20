@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Question } from '../question';
 
 @Component({
   selector: 'app-question-panel',
@@ -6,5 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./question-panel.component.css']
 })
 export class QuestionPanelComponent {
+  @Input()
+  question!: Question;
 
+  @Output() childEvent = new EventEmitter();
+returnAnswer(index:number){
+  this.childEvent.emit(index);
+}
+
+  
 }

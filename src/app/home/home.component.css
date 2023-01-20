@@ -1,0 +1,41 @@
+.main{
+    min-height: 100vh;
+    background: rgb(18, 1, 39);
+    color:white;
+    
+}
+
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.0em;
+    margin-block-end: 0.0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    padding:50px;
+}
+
+.container{
+    padding-top:100px;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+button{
+    border:none;
+    border-radius:10px;
+    box-shadow: 2px 2px 8px rgb(82, 49, 139);
+    color:white;
+    Font-size:26px;
+    height:120px;
+    width:200px;
+    background: rgb(131,58,180);
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+}
+
+button:hover{
+    opacity:0.8;
+}
