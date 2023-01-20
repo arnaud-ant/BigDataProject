@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Question } from '../question';
+import { Question } from '../service/question';
 
 @Component({
   selector: 'app-question-panel',

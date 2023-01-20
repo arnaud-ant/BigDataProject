@@ -1,6 +1,6 @@
 import { sanitizeIdentifier } from '@angular/compiler';
 import {  HostListener,Component } from '@angular/core';
-import { Question } from '../question';
+import { Question } from '../service/question';
 import { Router } from '@angular/router';
 
 
