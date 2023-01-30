@@ -58,3 +58,44 @@
     background-color: rgb(206, 16, 16);
 }
 
+.record{
+    margin-left:auto;
+    margin-right:auto;
+    width:510px;
+    text-align: center;
+    padding-top:20px
+}
+
+#micro-icon{
+    width:60px;
+    height:60px;
+    padding:10px;
+}
+
+.recordProgression {
+    margin-left:auto;
+    margin-right:auto;
+    background: rgba(255,255,255,0.1);
+    justify-content: flex-start;
+    border-radius: 100px;
+    align-items: center;
+    position: relative;
+    padding: 0 5px;
+    display: flex;
+    height: 20px;
+    width: 500px;
+  }
+  
+  .progress-value {
+    animation: load 5s normal forwards;
+    box-shadow: 0 2px 8px -10px #fff;
+    border-radius: 100px;
+    background: orange;
+    height: 10px;
+    width: 0;
+  }
+
+  @keyframes load {
+    0% { width: 0; }
+    100% { width: 100%; }
+  }

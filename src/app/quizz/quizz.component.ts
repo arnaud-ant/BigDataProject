@@ -1,7 +1,8 @@
-import { sanitizeIdentifier } from '@angular/compiler';
 import {  HostListener,Component } from '@angular/core';
 import { Question } from '../service/question';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import {AwsLambdaService} from '../service/aws-service.service';
+import { GlobalVar } from '../global-variables';
 
 
 @Component({
@@ -11,75 +12,67 @@ import { Router } from '@angular/router';
 })
 export class QuizzComponent {
 
-  @HostListener('document:keyup', ['$event'])
-  async handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key == ' ' && !this.recordVoice ) {
-      this.recordVoice=true;
-      console.log('enter pressed')
-      setTimeout(()=>{ this.recordVoice = false }, 5000)
+
+
+  constructor(private _router: Router, private lambdaService: AwsLambdaService,private route: ActivatedRoute){
+
+    if(GlobalVar.connectedUser.username == ""){
+      this._router.navigateByUrl('/');
     }
+    
+    this.route.params.subscribe( params => this.quizzId = params['id']);
+    console.log('loading quizz n°',this.quizzId)
+    this.getQuizz(+this.quizzId-1);
   }
 
-  constructor(private _router: Router){}
-
-  questions=[
-    {
-      index:1,
-      label:"La tour Eiffel est la plus haute structure de Paris ?",
-      answer:[{answer:"oui",valid:true},{answer:"non",valid:false},{answer:"peut etre",valid:false},{answer:"nsp",valid:false}]
-    },
-    {
-      index:2,
-      label:"L’apparition de traces blanches à la surface du chocolat est causée par la fermentation du sucre ?",
-      answer:[{answer:"oui",valid:true},{answer:"non",valid:false},{answer:"peut etre",valid:false},{answer:"nsp",valid:false}]
-    },
-    {
-      index:3,
-      label:"Quelle est l'énergie renouvelable la plus utilisée ?",
-      answer:[{answer:"hydro",valid:true},{answer:"eolien",valid:false},{answer:"solaire",valid:false},{answer:"geothermie",valid:false}]
-    },
-    {
-      index:4,
-      label:"L'alcool a-t-il été interdit aux joueurs de pétanque professionnels en 2007 ?",
-      answer:[{answer:"oui",valid:true},{answer:"non",valid:false},{answer:"peut etre",valid:false},{answer:"nsp",valid:false}]
-    },
-    {
-      index:5,
-      label:"Quelle est la particularité des fourmis légionnaires ?",
-      answer:[{answer:"8pattes",valid:true},{answer:"Cannibales",valid:false},{answer:"Végétariennes",valid:false},{answer:"Aveugles",valid:false}]
-    },
-    {
-      index:6,
-      label:"En combien de langues est proposé Wikipédia ?",
-      answer:[{answer:"1150",valid:true},{answer:"2300",valid:false},{answer:"3420",valid:false},{answer:"4500",valid:false}]
-    },
-    {
-      index:7,
-      label:"La construction du mur de Berlin a commencé en 1951 ?",
-      answer:[{answer:"oui",valid:true},{answer:"non",valid:false},{answer:"peut etre",valid:false},{answer:"nsp",valid:false}]
-    },
-    {
-      index:8,
-      label:"Le jeu vidéo Among Us est sorti en 2018 ?",
-      answer:[{answer:"oui",valid:true},{answer:"non",valid:false},{answer:"peut etre",valid:false},{answer:"nsp",valid:false}]
-    },
-    {
-      index:9,
-      label:"Il y a plus de grains de sable sur Terre que d’étoiles dans l’univers ?",
-      answer:[{answer:"oui",valid:true},{answer:"non",valid:false},{answer:"peut etre",valid:false},{answer:"nsp",valid:false}]
-    },
-    {
-      index:10,
-      label:"Dans la série Les Simpsons, quel est le deuxième prénom de Milhouse Van Houten ?",
-      answer:[{answer:"Adolf",valid:true},{answer:"Staline ",valid:false},{answer:"Mussolini",valid:false},{answer:"Franco",valid:false}]
-    },
-  ]
-
-
+quizzId:number=0;
+questions:Question[]=[]
 currentQuestionId:number=1;
 currentQuestion:Question = this.questions[this.currentQuestionId-1];
 score:number=0;
 recordVoice:boolean=false;
+
+public fullResponse!: AWS.Lambda.InvocationResponse;
+public lambdaResponse: any;
+lambdaName: string = "getQuizz";
+lambdares:boolean=false;
+
+public async getQuizz(quizzId:number){
+  let request = {
+    id: quizzId
+  };
+  //invoke lambda from the lambda service
+  let response = await this.lambdaService.invokeLambda(this.lambdaName, request);
+  
+  //parse the response data from our function
+  if(response){
+    this.fullResponse = response;
+    let res = JSON.parse(response?.Payload?.toString()?? "");
+    this.processQuestions(res.questions,res.reponses,res.valeurs);
+    this.currentQuestionId=1;
+    this.currentQuestion = this.questions[this.currentQuestionId-1];
+    this.lambdaResponse = res;
+    console.log(this.lambdaResponse);
+    console.log(this.questions)
+    console.log(this.lambdaResponse.questions)
+  }
+  
+}
+
+processQuestions(questionlist:string,answerlist:string,resultlist:string){
+  let questionArray=JSON.parse(questionlist);
+  let answerArray=JSON.parse(answerlist);
+  let resultArray=JSON.parse(resultlist);
+  let i;
+  for (i=0; i<questionArray.length; i++) {
+   let q = {
+    index:i,
+    label:questionArray[i],
+    answer:[{answer:answerArray[i*4],valid:resultArray[i*4]},{answer:answerArray[i*4+1],valid:resultArray[i*4+1]},{answer:answerArray[i*4+2],valid:resultArray[i*4+2]},{answer:answerArray[i*4+3],valid:resultArray[i*4+3]}]
+  }
+  this.questions.push(q)
+ }
+}
 
 getNextQuestion(){
   

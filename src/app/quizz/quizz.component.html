@@ -1,5 +1,15 @@
 <div class="main">
-    <div class="info">
+
+    <div *ngIf="!lambdaResponse" class="sk-chase">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+      </div>
+
+    <div  *ngIf="lambdaResponse" class="info">
     
         <div class="progression">
             <div class="dot" id="q1" ></div>
@@ -23,14 +33,8 @@
             <div class="dot" id="q10" style="background-color: {{currentQuestionId>9?'orange':'#F8F8FF'}}"></div>    
         </div>
     </div>
-    <div class="question">
+    <div *ngIf="lambdaResponse" class="question">
         <app-question-panel [question]=currentQuestion (childEvent)="checkAnswer($event)"></app-question-panel>
-    </div>
-    <div class="record">
-        <img *ngIf="recordVoice" id="micro-icon" src="https://cdn2.iconfinder.com/data/icons/Siena/256/microphone%20red.png" >
-    <div *ngIf="recordVoice"  class="recordProgression">
-        <div class="progress-value"></div>
-    </div>
     </div>
     
 </div>

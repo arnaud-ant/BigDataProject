@@ -1,16 +1,35 @@
 <div class="main">
-    <h1> Select a quizz</h1>
+
+    <nav class="navbar">
+        <ul>
+          <li (mouseover)="homeHover = true" (mouseleave)="homeHover = false">
+            <a routerLink="/home" routerLinkActive="active">
+              <fa-icon [icon]="faHouse"></fa-icon>
+              <!--<span  *ngIf = "homeHover">   Menu</span>  -->
+            </a>
+          </li>
+          <li (mouseover)="analyticsHover = true" (mouseleave)="analyticsHover = false">
+            <a routerLink="/analytics" routerLinkActive="active">
+              <fa-icon [icon]="faBarChart"></fa-icon>
+              <!--<span  *ngIf = "analyticsHover">   Stats</span>  -->
+            </a>
+          </li>
+    
+          
+          <li style="float:right">
+            <a routerLink="/" routerLinkActive="inactive">
+             <fa-icon [icon]="faSignIn"></fa-icon> 
+            </a>
+          </li>
+          
+        </ul>
+    </nav>
+    
     
     <div class="container">
-        <button (click)="startQuizz()">Quizz 1</button>
-        <button (click)="startQuizz()">Quizz 2</button>
-        <button (click)="startQuizz()">Quizz 3</button>
-        <button (click)="startQuizz()">Quizz 4</button>
-        <button (click)="startQuizz()">Quizz 5</button>
-        <button (click)="startQuizz()">Quizz 6</button>
+        <li *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; index as i">
+            <button (click)="startQuizz(i+1)">Quizz {{i+1}}</button>
+        </li>
     </div>
-
-    <button id = "lambda" (click)="invokeLambda()">Call lambda</button>
-    <Label *ngIf="lambdares" > ça marche du feu de dieu !</Label>
 </div>
 

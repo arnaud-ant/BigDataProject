@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { QuestionPanelComponent } from './question-panel/question-panel.component';
@@ -20,7 +21,8 @@ import { QuizzComponent } from './quizz/quizz.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
