@@ -18,11 +18,13 @@ export class QuizzComponent {
 
     if(GlobalVar.connectedUser.username == ""){
       this._router.navigateByUrl('/');
+    }else{
+      this.route.params.subscribe( params => this.quizzId = params['id']);
+      console.log('loading quizz n°',this.quizzId)
+      this.getQuizz(+this.quizzId-1);
     }
+
     
-    this.route.params.subscribe( params => this.quizzId = params['id']);
-    console.log('loading quizz n°',this.quizzId)
-    this.getQuizz(+this.quizzId-1);
   }
 
 quizzId:number=0;
@@ -34,7 +36,7 @@ recordVoice:boolean=false;
 
 public fullResponse!: AWS.Lambda.InvocationResponse;
 public lambdaResponse: any;
-lambdaName: string = "getQuizz";
+lambdaName: string = "lambda-srapping";
 lambdares:boolean=false;
 
 public async getQuizz(quizzId:number){
@@ -48,6 +50,7 @@ public async getQuizz(quizzId:number){
   if(response){
     this.fullResponse = response;
     let res = JSON.parse(response?.Payload?.toString()?? "");
+    console.log(res);
     this.processQuestions(res.questions,res.reponses,res.valeurs);
     this.currentQuestionId=1;
     this.currentQuestion = this.questions[this.currentQuestionId-1];

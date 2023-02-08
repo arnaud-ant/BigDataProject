@@ -15,6 +15,8 @@
         <div *ngIf="recordVoice"  class="recordProgression">
             <div class="progress-value"></div>
         </div>
+        <button *ngIf="url" (click)="download(url)">dl</button>
+        <button *ngIf="url" (click)="uploadRecordToS3()">ul</button>
     </div>
 <!--
     <audio controls="" *ngIf="url">

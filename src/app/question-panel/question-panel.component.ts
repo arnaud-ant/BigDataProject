@@ -3,6 +3,10 @@ import { Question } from '../service/question';
 declare var $: any;
 import * as RecordRTC from 'recordrtc';
 import { DomSanitizer } from '@angular/platform-browser';
+import { v4 as uuidv4 } from 'uuid';
+import * as S3 from 'aws-sdk/clients/s3';
+import { GlobalVar } from '../global-variables'
+import { AwsLambdaService } from '../service/aws-service.service';
 
 @Component({
   selector: 'app-question-panel',
@@ -21,18 +25,23 @@ returnAnswer(index:number){
 }
 
 @HostListener('document:keyup', ['$event'])
-  async handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key == ' ' && !this.recordVoice ) {
-      this.recordVoice=true;
-      this.initiateRecording();
-      console.log('enter pressed')
-      setTimeout(()=>{
-          this.recordVoice = false;
-          this.stopRecording(); 
-          this.childEvent.emit(0);
-        }, 5000);
-    }
+async handleKeyboardEvent(event: KeyboardEvent) {
+  if (event.key == ' ' && !this.recordVoice ) {
+    this.recordVoice=true;
+    this.initiateRecording();
+    console.log('enter pressed')
+    setTimeout(()=>{
+        this.recordVoice = false;
+        this.stopRecording(); 
+        this.childEvent.emit(0);
+      }, 5000);
   }
+}
+
+public fullResponse!: AWS.Lambda.InvocationResponse;
+public lambdaResponse: any;
+lambdaName: string = "processRecording";
+lambdares:boolean=false;
 
 record:any=null;
   //Will use this flag for toggeling recording
@@ -43,7 +52,7 @@ record:any=null;
   error: string="";
   recordVoice:boolean=false;
 
-constructor(private domSanitizer: DomSanitizer){}
+constructor(private domSanitizer: DomSanitizer, private lambdaService: AwsLambdaService){}
   
 sanitize(url: string) {
   return this.domSanitizer.bypassSecurityTrustUrl(url);
@@ -90,6 +99,59 @@ processRecording(blob: Blob | MediaSource) {
 
 errorCallback(error: any) {
   this.error = 'Can not play audio in your browser';
+}
+
+download(url:string){
+  let a = document.createElement('a');
+  document.body.appendChild(a);
+  a.setAttribute('style', 'display: none');
+  a.href = url;
+  a.download = "blob.wav";
+  a.click();
+  window.URL.revokeObjectURL(url);
+  a.remove();
+}
+
+
+public async uploadRecordToS3(){
+  const object={blob: this.blob};
+  const stringifyObj = JSON.stringify(object);
+  console.log(stringifyObj)
+  const bucket = new S3(GlobalVar.credentials);
+  const objectKey = uuidv4();
+    const params = {
+        Bucket: 'bdpaudiobucket',
+        Key: objectKey,
+        Body: new File([this.blob], "audio.wav"),
+    };
+    console.log(stringifyObj)
+    bucket.upload(params,  (err: any, data: any) => {
+        if (err) {
+            console.log('There was an error uploading your file: ', err);
+            return null;
+        }
+        console.log('Successfully uploaded file.', data);
+        this.ProcessRecord(data.key);
+        console.log('key:', data.key)
+        return objectKey;
+    });
+}
+
+public async ProcessRecord(recordKey:number){
+  let request = {
+    key: recordKey
+  };
+  //invoke lambda from the lambda service
+  console.log('calling lambda to process the recording ...')
+  let response = await this.lambdaService.invokeLambda(this.lambdaName, request);
+  
+  //parse the response data from our function
+  if(response){
+    this.fullResponse = response;
+    let res = JSON.parse(response?.Payload?.toString()?? "");
+    this.lambdaResponse = res;
+    console.log(this.lambdaResponse);
+  }
 }
 
 }

@@ -1,6 +1,7 @@
 export interface User {
-    username: string;
-    password: string;
+    id:number,
+    username: string,
+    password: string,
 }
 
 export interface Credential {
@@ -11,11 +12,11 @@ export interface Credential {
   }
 
 export class GlobalVar{
-    public static connectedUser:User={username:"",password:""}
+    public static connectedUser:User={id:0,username:"",password:""}
     public static credentials:Credential={
-        accessKeyId: 'ASIAUGNLVVIWRXDI66O2',
-        secretAccessKey: '7za6/XEUAoYbzfcZL0D0R9sexZWCTFMV7BIoLXpm',
-        sessionToken:'FwoGZXIvYXdzECYaDAZDKiSHX6mDFGyB4iK9Af0p3xkbjBRMnKHcks+wfNRQyO7O0wYHts1JI6vNC5ZGQLNnv/JNJkPWZRbN8S8/ofKNQCGW3bufDjXivmi9osypGYZ/QSUQBlxejOw7UWk3lvxVltsGltUx9BZTqtmzgl8rCGtCmmvUQBKCG55lJfI+SIoAxX8iUxzoeCALbFD1CiJljVCMoGwFuLy221jtJcVce1eWpz6qZ1FiHeHJPJt8LMQDGBt0kqEs7oDiBwPgu4fP9Rq9jHsi6pMneSiJ+d6eBjItuO+Hcp+4Pv+QzsLg0eIOZrxBp2Vx5KEYE4WQhimR6WtyQrZ/GK8HU6yIjSjA',
+        accessKeyId: 'ASIARQRVCA2QZZFJL4VW',
+        secretAccessKey: 'jIXiBihPUJwxd3/e4MmDj7SR8E6awfoxLFRGDN9N',
+        sessionToken:'FwoGZXIvYXdzEP///////////wEaDCJutqEn34AY+D/OXiK9AXkHn4/nOv9vFuAL3ClBoucY5oCJCXgs0rFEnEZVVzZ3v77+9so8Fn0mozaWDedjPpmSGIMgXjo1TmbDC2d8ZoG1crn8bsvCz6Zs6+PzEe7S0Mbvy4upGW/FEO2EJl0UrMVJEzqZEsfldvp+YaMne4MKtrio4rz24y7P3czxVFH5Z+38FtXL2BUDpofQL80hUqHEHMJy6qT5igdfK3Z7hHbZbpi9wCLGrbdVBfqXjrp3mxUGUvRsC4DPepF5QijyvY6fBjItBXEFO89U9hTC1PZmBdjqbwTxTEeIF1Nfq/mNsV9NYSup2MLHARhUepXsNJkf',
         region: 'us-east-1'
       }
 }
