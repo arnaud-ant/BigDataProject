@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="form">
+        <label id="title">IA Quizz</label>
+        <div class="input-div">
+          <input type="text" [(ngModel)]="this.username"
+            class="input" 
+            id="username"
+            name="username" 
+            placeholder="  Enter username" ngDefaultControl>
+        </div>
+        <div class="input-div">
+            <input type="password" [(ngModel)]="this.password"
+              class="input" 
+              id="password"
+              name="password" 
+              placeholder="  Enter password" ngDefaultControl>
+        </div>
+        <button id="login-button" (click)="loginRDS()" 
+          class="btn btn-info">Connect</button>
+        <button id="register-button" (click)="registerRDS()"  
+          class="btn btn-info">Register</button>
+    </div>
+  </div>
+  

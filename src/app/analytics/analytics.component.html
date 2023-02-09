@@ -1,0 +1,51 @@
+<div class="main">
+    <nav class="navbar">
+        <ul>
+        <li (mouseover)="homeHover = true" (mouseleave)="homeHover = false">
+            <a routerLink="/home" routerLinkActive="active">
+            <fa-icon [icon]="faHouse"></fa-icon>
+            <!--<span  *ngIf = "homeHover">   Menu</span>  -->
+            </a>
+        </li>
+        <li (mouseover)="analyticsHover = true" (mouseleave)="analyticsHover = false">
+            <a routerLink="/analytics" routerLinkActive="active">
+            <fa-icon [icon]="faBarChart"></fa-icon>
+            <!--<span  *ngIf = "analyticsHover">   Stats</span>  -->
+            </a>
+        </li>
+
+        
+        <li style="float:right">
+            <a routerLink="/" routerLinkActive="inactive">
+            <fa-icon [icon]="faSignIn"></fa-icon> 
+            </a>
+        </li>
+        </ul>
+    </nav>
+
+    <div class="container"> 
+        <div class="scores-panel">
+            <h1 class="title">Dernières tentatives</h1> 
+            <ul class="score-list">
+                <li *ngFor="let score of scores; index as i; even as even" style="background-color: {{even?'rgb(42, 8, 75)':'rgb(52, 10, 92)'}}">
+                    <span >[{{score[3]}}] - Quizz {{score[2]}} - score : {{score[4]}}/10</span>
+                </li>
+                <li class="last-li">
+                    <span >Nombre de tentatives : {{scores.length}}</span>
+                    <br><br>
+                    <span >Moyenne : {{averageScore}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="chart-panel">
+            <google-chart *ngIf="chartLoaded" #scoreChart
+            [title]="title"
+            [type]="type"
+            [data]="chartData"
+            [columns]="columnsChartdatacolumn"
+            [options]="columnsChartoptions"
+            ></google-chart>
+        </div>
+    </div>
+</div>
+    
