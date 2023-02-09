@@ -52,7 +52,7 @@ async handleKeyboardEvent(event: KeyboardEvent) {
     setTimeout(()=>{
         this.recordVoice = false;
         this.stopRecording();
-        this.uploadRecordToS3(); 
+         
       }, 5000);
   }
 }
@@ -114,6 +114,7 @@ processRecording(blob: Blob | MediaSource) {
   this.blob=blob as Blob;
   console.log("blob", blob);
   console.log("url", this.url);
+  this.uploadRecordToS3();
 }
 
 errorCallback(error: any) {
@@ -144,7 +145,7 @@ public async uploadRecordToS3(){
         Key: objectKey,
         Body: new File([this.blob], "audio.wav"),
     };
-    console.log(stringifyObj)
+    console.log(this.blob)
     bucket.upload(params,  (err: any, data: any) => {
         if (err) {
           const Toast = Swal.mixin({
@@ -217,25 +218,25 @@ public async ProcessRecord(recordKey:number){
         title: "Nous n'avons pas compris votre réponse"
       });
     }else{
-      if(data = "un"){
+      if(data == "Un"){
         Toast.fire({
           icon: 'success',
           title: 'Vous avez choisi la réponse 1'
         });
         this.childEvent.emit(0);
-      }else if(data =="deux"){
+      }else if(data =="Deux"){
         Toast.fire({
           icon: 'success',
           title: 'Vous avez choisi la réponse 2'
         });
         this.childEvent.emit(1)
-      }else if(data =="trois"){
+      }else if(data =="Trois"){
         Toast.fire({
           icon: 'success',
           title: 'Vous avez choisi la réponse 3'
         });
         this.childEvent.emit(2)
-      }else if(data =="quatre"){
+      }else if(data =="Quatre"){
         Toast.fire({
           icon: 'success',
           title: 'Vous avez choisi la réponse 4'
