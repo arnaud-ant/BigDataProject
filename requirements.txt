@@ -1,0 +1,9 @@
+numpy
+pandas
+scipy
+librosa
+wavio
+keras
+kapre
+scikit-learn
+sklearn
