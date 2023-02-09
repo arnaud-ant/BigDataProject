@@ -5,7 +5,6 @@ import {AwsLambdaService} from '../service/aws-service.service';
 import { GlobalVar, totalScore } from '../global-variables';
 
 
-
 @Component({
   selector: 'app-quizz',
   templateUrl: './quizz.component.html',

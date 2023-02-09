@@ -1,3 +1,4 @@
+
 export var totalScore : any[] = []
 
 export interface User {
