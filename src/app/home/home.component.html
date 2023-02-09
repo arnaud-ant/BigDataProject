@@ -1,0 +1,35 @@
+<div class="main">
+
+    <nav class="navbar">
+        <ul>
+          <li (mouseover)="homeHover = true" (mouseleave)="homeHover = false">
+            <a routerLink="/home" routerLinkActive="active">
+              <fa-icon [icon]="faHouse"></fa-icon>
+              <!--<span  *ngIf = "homeHover">   Menu</span>  -->
+            </a>
+          </li>
+          <li (mouseover)="analyticsHover = true" (mouseleave)="analyticsHover = false">
+            <a routerLink="/analytics" routerLinkActive="active">
+              <fa-icon [icon]="faBarChart"></fa-icon>
+              <!--<span  *ngIf = "analyticsHover">   Stats</span>  -->
+            </a>
+          </li>
+    
+          
+          <li style="float:right">
+            <a routerLink="/" routerLinkActive="inactive">
+             <fa-icon [icon]="faSignIn"></fa-icon> 
+            </a>
+          </li>
+          
+        </ul>
+    </nav>
+    
+    
+    <div class="container">
+        <li *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; index as i">
+            <button (click)="startQuizz(i+1)">Quizz {{i+1}}</button>
+        </li>
+    </div>
+</div>
+

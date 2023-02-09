@@ -1,0 +1,79 @@
+<div class="main">
+    <nav class="navbar">
+        <ul>
+        <li (mouseover)="homeHover = true" (mouseleave)="homeHover = false">
+            <a routerLink="/home" routerLinkActive="active">
+            <fa-icon [icon]="faHouse"></fa-icon>
+            <!--<span  *ngIf = "homeHover">   Menu</span>  -->
+            </a>
+        </li>
+        <li (mouseover)="analyticsHover = true" (mouseleave)="analyticsHover = false">
+            <a routerLink="/analytics" routerLinkActive="active">
+            <fa-icon [icon]="faBarChart"></fa-icon>
+            <!--<span  *ngIf = "analyticsHover">   Stats</span>  -->
+            </a>
+        </li>
+
+        
+        <li style="float:right">
+            <a routerLink="/" routerLinkActive="inactive">
+            <fa-icon [icon]="faSignIn"></fa-icon> 
+            </a>
+        </li>
+        </ul>
+    </nav>
+    <div>
+        <h1>Statistiques</h1>
+        <br>
+        <div class="general">
+            <p>Nombre de quiz joués : {{taille}}</p>
+            <p>Score moyen : {{moyenne}}</p>
+        </div>
+        <div class="histDiag">
+            <table>
+                <tr>
+                    <td class="hist">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Numéro de Quiz</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            
+                    
+                            <tbody>
+                                <tr>
+                                    <td>1 janvier 2022</td>
+                                    <td>N°3</td>
+                                    <td>3/10</td>
+                                </tr>
+                                <tr>
+                                    <td>3 octobre 2022</td>
+                                    <td>N°1</td>
+                                    <td>5/10</td>
+                                </tr>
+                                <tr>
+                                    <td>4 juin 1940</td>
+                                    <td>N°7</td>
+                                    <td>6/10</td>
+                                </tr>
+                                <tr>
+                                    <td>8 decembre 2023</td>
+                                    <td>N°5</td>
+                                    <td>1/10</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="diag">
+                        <div class="diagramme">
+                            <img src="/assets/Pe-chart.png" alt="">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
