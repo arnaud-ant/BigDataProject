@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { QuizzComponent } from './quizz/quizz.component';
 import { GraphComponent } from './graph/graph.component';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
     QuestionPanelComponent,
     HomeComponent,
     QuizzComponent,
-    GraphComponent
+    GraphComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,
