@@ -3,7 +3,8 @@ import { formatDate } from '@angular/common'
 import { Question } from '../service/question';
 import { ActivatedRoute, Router } from '@angular/router';
 import {AwsLambdaService} from '../service/aws-service.service';
-import { GlobalVar, totalScore } from '../global-variables';
+import { GlobalVar } from '../global-variables';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -83,10 +84,13 @@ getNextQuestion(){
   this.currentQuestionId++;
 
   if(this.currentQuestionId > 10){
-    const message = 'terminé ! votre socre est de : ' + this.score + '/' + this.questions.length;
+    const message =   'Votre socre est de : ' + this.score + '/10';
     this.sendScore(this.score);
-    alert(message);
-    totalScore.push(this.score)
+    Swal.fire(
+      'Terminé !',
+      message,
+      'success'
+    )
     this._router.navigateByUrl('/home');
   }else{
     console.log("going to next question")

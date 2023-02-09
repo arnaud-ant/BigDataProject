@@ -1,6 +1,3 @@
-
-export var totalScore : any[] = []
-
 export interface User {
     id:number,
     username: string,

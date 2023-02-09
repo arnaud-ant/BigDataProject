@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { faSignIn, faHouse, faBarChart } from '@fortawesome/free-solid-svg-icons';
 import { ChartType } from 'angular-google-charts';
-import { GlobalVar, totalScore } from '../global-variables';
+import { GlobalVar} from '../global-variables';
 import { AwsLambdaService } from '../service/aws-service.service';
 
 @Component({
@@ -11,10 +11,6 @@ import { AwsLambdaService } from '../service/aws-service.service';
   styleUrls: ['./analytics.component.css']
 })
 export class AnalyticsComponent {
-  total = totalScore;
-  taille = totalScore.length;
-  addition=0;
-  moyenne=0;
 
   faSignIn=faSignIn;
   faHouse=faHouse;
@@ -25,6 +21,7 @@ export class AnalyticsComponent {
   averageScore:number=0.0;
   analyticsHover:boolean = false;
   homeHover:boolean = false;
+  chartLoaded:boolean=false;
 
   constructor(private _router: Router,private lambdaService: AwsLambdaService){}
 
@@ -61,6 +58,7 @@ export class AnalyticsComponent {
         this.scores=data;
         this.loadChartData();
         this.chartData = Object.assign([],this.chartData);
+        this.chartLoaded=true;
         this.scores.forEach((value:any,index:any) =>{
           this.averageScore += value[4];
         });

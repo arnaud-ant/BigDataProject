@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as S3 from 'aws-sdk/clients/s3';
 import { GlobalVar } from '../global-variables'
 import { AwsLambdaService } from '../service/aws-service.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-question-panel',
@@ -20,6 +21,24 @@ export class QuestionPanelComponent  {
   @Output() childEvent = new EventEmitter();
 returnAnswer(index:number){
   if(!this.recordVoice){
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    });
+    let i= index+1;
+    let message = 'Vous avez choisi la réponse ' + i;
+    Toast.fire({
+      icon: 'success',
+      title: message,
+    });
+
     this.childEvent.emit(index);
   } 
 }
@@ -32,8 +51,8 @@ async handleKeyboardEvent(event: KeyboardEvent) {
     console.log('enter pressed')
     setTimeout(()=>{
         this.recordVoice = false;
-        this.stopRecording(); 
-        this.childEvent.emit(0);
+        this.stopRecording();
+        this.uploadRecordToS3(); 
       }, 5000);
   }
 }
@@ -101,6 +120,7 @@ errorCallback(error: any) {
   this.error = 'Can not play audio in your browser';
 }
 
+
 download(url:string){
   let a = document.createElement('a');
   document.body.appendChild(a);
@@ -127,6 +147,21 @@ public async uploadRecordToS3(){
     console.log(stringifyObj)
     bucket.upload(params,  (err: any, data: any) => {
         if (err) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          });
+          Toast.fire({
+            icon: 'error',
+            title: "Erreur serveur"
+          });
             console.log('There was an error uploading your file: ', err);
             return null;
         }
@@ -150,7 +185,58 @@ public async ProcessRecord(recordKey:number){
     this.fullResponse = response;
     let res = JSON.parse(response?.Payload?.toString()?? "");
     this.lambdaResponse = res;
-    console.log(this.lambdaResponse);
+    let data = JSON.parse(this.lambdaResponse.body);
+    console.log(data);
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    });
+    if(data == "Could not indentify response"){
+      console.log('Could not indentify response')
+      Toast.fire({
+        icon: 'error',
+        title: "Nous n'avons pas compris votre réponse"
+      });
+    }else{
+      if(data = "un"){
+        Toast.fire({
+          icon: 'success',
+          title: 'Vous avez choisi la réponse 1'
+        });
+        this.childEvent.emit(0);
+      }else if(data =="deux"){
+        Toast.fire({
+          icon: 'success',
+          title: 'Vous avez choisi la réponse 2'
+        });
+        this.childEvent.emit(1)
+      }else if(data =="trois"){
+        Toast.fire({
+          icon: 'success',
+          title: 'Vous avez choisi la réponse 3'
+        });
+        this.childEvent.emit(2)
+      }else if(data =="quatre"){
+        Toast.fire({
+          icon: 'success',
+          title: 'Vous avez choisi la réponse 4'
+        });
+        this.childEvent.emit(3)
+      }else{
+        Toast.fire({
+          icon: 'error',
+          title: "Nous n'avons pas compris votre réponse"
+        });
+      }
+      
+    }
   }
 }
 
