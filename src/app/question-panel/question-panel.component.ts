@@ -59,7 +59,7 @@ async handleKeyboardEvent(event: KeyboardEvent) {
 
 public fullResponse!: AWS.Lambda.InvocationResponse;
 public lambdaResponse: any;
-lambdaName: string = "processRecording";
+lambdaName: string = "lambda-test-model";
 lambdares:boolean=false;
 
 record:any=null;
@@ -140,7 +140,7 @@ public async uploadRecordToS3(){
   const bucket = new S3(GlobalVar.credentials);
   const objectKey = uuidv4();
     const params = {
-        Bucket: 'bdpaudiobucket',
+        Bucket: 'big-data-audio-file',
         Key: objectKey,
         Body: new File([this.blob], "audio.wav"),
     };
@@ -160,7 +160,7 @@ public async uploadRecordToS3(){
           });
           Toast.fire({
             icon: 'error',
-            title: "Erreur serveur"
+            title: "Erreur serveur (bucket)"
           });
             console.log('There was an error uploading your file: ', err);
             return null;
@@ -179,6 +179,18 @@ public async ProcessRecord(recordKey:number){
   //invoke lambda from the lambda service
   console.log('calling lambda to process the recording ...')
   let response = await this.lambdaService.invokeLambda(this.lambdaName, request);
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  });
   
   //parse the response data from our function
   if(response){
@@ -237,6 +249,11 @@ public async ProcessRecord(recordKey:number){
       }
       
     }
+  }else{
+    Toast.fire({
+      icon: 'error',
+      title: "Erreur serveur (model)"
+    });
   }
 }
 
