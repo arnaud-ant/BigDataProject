@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { QuestionPanelComponent } from './question-panel/question-panel.component';
 import { HomeComponent } from './home/home.component';
 import { QuizzComponent } from './quizz/quizz.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { QuizzComponent } from './quizz/quizz.component';
     LoginComponent,
     QuestionPanelComponent,
     HomeComponent,
-    QuizzComponent
+    QuizzComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,7 @@ import {  HostListener,Component } from '@angular/core';
 import { Question } from '../service/question';
 import { ActivatedRoute, Router } from '@angular/router';
 import {AwsLambdaService} from '../service/aws-service.service';
-import { GlobalVar } from '../global-variables';
+import { GlobalVar, totalScore } from '../global-variables';
 
 
 @Component({
@@ -84,6 +84,7 @@ getNextQuestion(){
   if(this.currentQuestionId > 10){
     const message = 'terminé ! votre socre est de : ' + this.score + '/' + this.questions.length;
     alert(message);
+    totalScore.push(this.score)
     this._router.navigateByUrl('/home');
   }else{
     console.log("going to next question")
