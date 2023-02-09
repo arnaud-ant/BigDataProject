@@ -1,4 +1,5 @@
 import {  HostListener,Component } from '@angular/core';
+import { formatDate } from '@angular/common'
 import { Question } from '../service/question';
 import { ActivatedRoute, Router } from '@angular/router';
 import {AwsLambdaService} from '../service/aws-service.service';
@@ -83,12 +84,35 @@ getNextQuestion(){
 
   if(this.currentQuestionId > 10){
     const message = 'terminé ! votre socre est de : ' + this.score + '/' + this.questions.length;
+    this.sendScore(this.score);
     alert(message);
     totalScore.push(this.score)
     this._router.navigateByUrl('/home');
   }else{
     console.log("going to next question")
     this.currentQuestion = this.questions[this.currentQuestionId-1];
+  }
+}
+
+public async sendScore(score:number){
+  let lambdaName: string = "lambda-post-statistics";
+  let request = {
+    user_id:GlobalVar.connectedUser.id,
+    quizz_id:this.quizzId,
+    date: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+    score:score,
+  };
+  //invoke lambda from the lambda service
+  console.log(request);
+  let response = await this.lambdaService.invokeLambda(lambdaName, request);
+  
+  //parse the response data from our function
+  if(response){
+    let res = JSON.parse(response?.Payload?.toString()?? "");
+    this.lambdaResponse = res;
+    console.log(this.lambdaResponse);
+    let data = JSON.parse(this.lambdaResponse.body);
+    console.log(data);
   }
 }
 

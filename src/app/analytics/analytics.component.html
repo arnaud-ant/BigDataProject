@@ -22,7 +22,33 @@
         </li>
         </ul>
     </nav>
-    <div>
+
+    <div class="container"> 
+        <div class="scores-panel">
+            <h1 class="title">Dernières tentatives</h1> 
+            <ul class="score-list">
+                <li *ngFor="let score of scores; index as i; even as even" style="background-color: {{even?'rgb(42, 8, 75)':'rgb(52, 10, 92)'}}">
+                    <span >[{{score[3]}}] - Quizz {{score[2]}} - score : {{score[4]}}</span>
+                </li>
+                <li class="last-li">
+                    <span >Nombre de tentatives : {{scores.length}}</span>
+                    <br><br>
+                    <span >Moyenne : {{averageScore}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="chart-panel">
+            <google-chart #scoreChart
+            [title]="title"
+            [type]="type"
+            [data]="chartData"
+            [columns]="columnsChartdatacolumn"
+            [options]="columnsChartoptions"
+            ></google-chart>
+        </div>
+    </div>
+
+    <!--<div>
         <h1>Statistiques</h1>
         <br>
         <div class="general">
@@ -75,5 +101,5 @@
                 </tr>
             </table>
         </div>
-    </div>
+    </div>-->
 </div>

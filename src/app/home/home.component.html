@@ -27,9 +27,11 @@
     
     
     <div class="container">
-        <li *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; index as i">
-            <button (click)="startQuizz(i+1)">Quizz {{i+1}}</button>
+      <div class="icon-table">
+        <li *ngFor="let icon of quizzIcons; index as i" class="icon">
+          <fa-icon [icon]="icon" (click)="startQuizz(i+1)"></fa-icon>
         </li>
+      </div>
     </div>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ChartType, Row } from "angular-google-charts";
 
 @Component({
@@ -8,6 +8,13 @@ import { ChartType, Row } from "angular-google-charts";
 })
 export class GraphComponent {
 
+  @Input()
+  chartData:any[]=[];
+
+
+  ngOnInit(){
+    console.log(this.chartData);
+  }
 
   title = 'Google Chart Example';
   type = ChartType.ColumnChart;
@@ -37,6 +44,7 @@ export class GraphComponent {
     },
     labels: 'none',
     is3D: false ,
+    static:false,
     fontSize: 9,
     legend: 'dsd',
   };

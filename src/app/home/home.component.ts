@@ -1,7 +1,24 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {AwsLambdaService} from '../service/aws-service.service';
-import { faSignIn, faHouse, faBarChart } from '@fortawesome/free-solid-svg-icons';
+import { faSignIn,
+         faHouse,
+         faBarChart,
+         faRocket,
+         faFootball,
+         faPizzaSlice,
+         faBrain,
+         faDog,
+         faMountain,
+         faSquareRootVariable,
+         faEarthAmerica,
+         faFlagUsa,
+         faFlaskVial,
+         faIcons,
+         faGamepad,
+         faSatellite,
+         faToriiGate,
+         faCarrot } from '@fortawesome/free-solid-svg-icons';
 import { GlobalVar } from '../global-variables'
 
 @Component({
@@ -23,6 +40,25 @@ export class HomeComponent {
   faSignIn=faSignIn;
   faHouse=faHouse;
   faBarChart=faBarChart;
+
+
+  quizzIcons=[faRocket,
+    faFootball,
+    faPizzaSlice,
+    faBrain,
+    faDog,
+    faMountain,
+    faSquareRootVariable,
+    faEarthAmerica,
+    faFlagUsa,
+    faFlaskVial,
+    faIcons,
+    faGamepad,
+    faSatellite,
+    faToriiGate,
+    faCarrot]
+
+
 
   analyticsHover:boolean = false;
   homeHover:boolean = false;
