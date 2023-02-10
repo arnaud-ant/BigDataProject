@@ -27,3 +27,13 @@ Dans cette partie nous avons développé une interface Web avec Angular pour que
 Dans cette partie, nous avons déployer la solution dans le cloud AWS.
 
 [Lien vers la branche Cloud AWS](https://github.com/arnaud-ant/BigDataProject/tree/AWS)
+
+## Contributeurs 
+
+* Arnaud Antonini 
+* Yoann Masset
+* Teddy Sabatier
+* Joé Teixeira  
+* Thomas Van Wynendaele
+
+TSE 2023 - FISE3 - Option INFO 2
