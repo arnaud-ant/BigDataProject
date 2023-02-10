@@ -1,30 +1,29 @@
+# Projet BigData
 
-#Partie IA
-Pour acceder aux fichiers source la partie IA, aller sur la Brance AI. Les fichiers Lambda sont ceux utiliser le déploiment sur le cloud,avec Lambda test pour prédire et train pour refit le modèle sur des données de cadrage (non implémenté sur le front et back). Pour tester un modèle utiliser le fichier modelTestDrirectly afin de parler et que le modèle prédise ce que vous disez.. Pour parmétrer les variables aller dans le fichier parameters.py et pour lancer tout le parsage cleaning entrainement et test des modèles utiliser le fichier runall.py et décommenter/commenter les fonctions avec ce que vous voulez exécuter. Il vous est conseillé de consulter les notebooks dans le dossier notebook pour comprendre notre démarche.
-# BigData
+Le but de ce projet est de créer une page Web où les utilisateurs peuvent répondre à un quizz grâce à leur voix, le tout hébergé dans le cloud. 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.2.
+Ce projet se découpe en plusieurs parties :
 
-## Development server
+## Machine Learning 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Dans cette partie, nous avons entrainé un modèle pour reconnaitre des mots (Oui, Non, Un, Deux, Trois et Quatre) dans un enregistrement audio de l'utilisateur.
 
-## Code scaffolding
+[Lien vers la branche de Machine Learning](https://github.com/arnaud-ant/BigDataProject/tree/AI)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Scrapping
 
-## Build
+Dans cette partie, nous avons récupéré des quizz sur Internet en rajoutant des définitions Wikipédia quand cela était pertinent.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+[Lien vers la branche Scrapping](https://github.com/arnaud-ant/BigDataProject/tree/Scrapping)
 
-## Running unit tests
+## Front Web
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Dans cette partie nous avons développé une interface Web avec Angular pour que l'utilisateur puisse répondre au quizz.
 
-## Running end-to-end tests
+[Lien vers la branche du Front Web](https://github.com/arnaud-ant/BigDataProject/tree/Front-Web)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## AWS
 
-## Further help
+Dans cette partie, nous avons déployer la solution dans le cloud AWS.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+[Lien vers la branche Cloud AWS](https://github.com/arnaud-ant/BigDataProject/tree/AWS)
